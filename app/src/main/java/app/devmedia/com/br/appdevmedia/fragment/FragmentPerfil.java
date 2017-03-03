@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -57,6 +58,9 @@ public class FragmentPerfil extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_perfil, container, false);
 
+        final RelativeLayout lytLoading = (RelativeLayout) view.findViewById(R.id.lytLoading);
+        lytLoading.setVisibility(View.VISIBLE);
+
         btnCadastrar = (Button) view.findViewById(R.id.btnCadastrar);
         lytTxtNome = (TextInputLayout) view.findViewById(R.id.lytTxtNome);
         txtNome = (TextView) view.findViewById(R.id.txtNome);
@@ -80,9 +84,8 @@ public class FragmentPerfil extends Fragment {
                     }
                 }
 
-                ProfissaoArrayAdapter arrayAdapter = new ProfissaoArrayAdapter(getActivity(), R.layout.linha_profissao, profissoes);
-                arrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                 spnProfissao.setAdapter(new ProfissaoArrayAdapter(getActivity(), R.layout.linha_profissao, profissoes));
+                lytLoading.setVisibility(View.GONE);
             }
 
         });
