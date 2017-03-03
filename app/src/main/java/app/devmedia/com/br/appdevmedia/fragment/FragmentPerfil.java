@@ -79,9 +79,6 @@ public class FragmentPerfil extends Fragment {
                     }
                 }
 
-
-
-
                 List<String> desc = new ArrayList<>();
                 for (Profissao p : profissoes){
                     desc.add(p.getDescricao());
