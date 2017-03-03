@@ -27,6 +27,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import app.devmedia.com.br.appdevmedia.R;
+import app.devmedia.com.br.appdevmedia.adapter.ProfissaoArrayAdapter;
 import app.devmedia.com.br.appdevmedia.entity.Profissao;
 import app.devmedia.com.br.appdevmedia.entity.User;
 import app.devmedia.com.br.appdevmedia.util.Constantes;
@@ -79,14 +80,9 @@ public class FragmentPerfil extends Fragment {
                     }
                 }
 
-                List<String> desc = new ArrayList<>();
-                for (Profissao p : profissoes){
-                    desc.add(p.getDescricao());
-                }
-
-                ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_item, desc);
+                ProfissaoArrayAdapter arrayAdapter = new ProfissaoArrayAdapter(getActivity(), R.layout.linha_profissao, profissoes);
                 arrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-                spnProfissao.setAdapter(arrayAdapter);
+                spnProfissao.setAdapter(new ProfissaoArrayAdapter(getActivity(), R.layout.linha_profissao, profissoes));
             }
 
         });
