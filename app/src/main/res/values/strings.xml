@@ -1,0 +1,13 @@
+<resources>
+    <string name="app_name">App DevMedia</string>
+    <string name="action_settings">Settings</string>
+    <string name="lbl_senha">Senha</string>
+    <string name="lbl_login">Login</string>
+    <string name="btn_logar">Logar</string>
+
+    <!-- Form de cadastro de pessoas -->
+    <string name="txtNome">Nome:</string>
+    <string name="txtEmail">Email:</string>
+    <string name="txtMinibio">Mini Bio:</string>
+
+</resources>
