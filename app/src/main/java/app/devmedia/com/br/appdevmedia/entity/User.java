@@ -1,16 +1,12 @@
 package app.devmedia.com.br.appdevmedia.entity;
 
-/**
- * Created by marcos on 03/03/17.
- */
-
 public class User {
 
     private String nome;
     private String email;
     private String minibio;
     private char sexo;
-    private int codProfissao;
+    private Profissao profissao;
 
 
     public String getNome() {
@@ -45,11 +41,12 @@ public class User {
         this.sexo = sexo;
     }
 
-    public int getCodProfissao() {
-        return codProfissao;
+    public Profissao getProfissao() {
+        return profissao;
     }
 
-    public void setCodProfissao(int codProfissao) {
-        this.codProfissao = codProfissao;
+    public void setProfissao(Profissao profissao) {
+        this.profissao = profissao;
     }
+
 }
