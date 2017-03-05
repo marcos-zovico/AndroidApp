@@ -13,6 +13,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
+import com.mikepenz.fontawesome_typeface_library.FontAwesome;
+import com.mikepenz.google_material_typeface_library.GoogleMaterial;
 import com.mikepenz.materialdrawer.AccountHeader;
 import com.mikepenz.materialdrawer.AccountHeaderBuilder;
 import com.mikepenz.materialdrawer.Drawer;
@@ -53,11 +55,14 @@ public class MainActivity extends AppCompatActivity {
         tabLayout.setupWithViewPager(viewPager);
 
 
-        final PrimaryDrawerItem itemPerfil = new PrimaryDrawerItem().withName("Perfil");
+        final PrimaryDrawerItem itemPerfil = new PrimaryDrawerItem()
+                .withName("Perfil")
+                .withIcon(GoogleMaterial.Icon.gmd_person);
 
         final PrimaryDrawerItem itemProdutos = new PrimaryDrawerItem()
                 .withName("Produtos")
                 .withBadge("43")
+                .withIcon(FontAwesome.Icon.faw_th_list)
                 .withBadgeStyle(new BadgeStyle()
                                  .withTextColor(Color.WHITE)
                                  .withColorRes(R.color.md_orange_700));
@@ -65,6 +70,7 @@ public class MainActivity extends AppCompatActivity {
         final PrimaryDrawerItem itemCompras = new PrimaryDrawerItem()
                 .withName("Ultimas compras")
                 .withBadge("2")
+                .withIcon(GoogleMaterial.Icon.gmd_shop_two)
                 .withBadgeStyle(new BadgeStyle()
                         .withTextColor(Color.WHITE)
                         .withColorRes(R.color.md_orange_700));
@@ -100,7 +106,9 @@ public class MainActivity extends AppCompatActivity {
                 .build();
 
 //        drawer.addItem(new DividerDrawerItem());
-        drawer.addStickyFooterItem(new PrimaryDrawerItem().withName("Sobre o App").withIdentifier(ID_ND_FOOTER));
+        drawer.addStickyFooterItem(new PrimaryDrawerItem().withName("Sobre o App")
+                    .withIdentifier(ID_ND_FOOTER)
+                    .withIcon(GoogleMaterial.Icon.gmd_info));
 
     }
 
