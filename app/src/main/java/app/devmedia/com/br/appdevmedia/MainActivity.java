@@ -105,7 +105,6 @@ public class MainActivity extends AppCompatActivity {
                 })
                 .build();
 
-//        drawer.addItem(new DividerDrawerItem());
         drawer.addStickyFooterItem(new PrimaryDrawerItem().withName("Sobre o App")
                     .withIdentifier(ID_ND_FOOTER)
                     .withIcon(GoogleMaterial.Icon.gmd_info));

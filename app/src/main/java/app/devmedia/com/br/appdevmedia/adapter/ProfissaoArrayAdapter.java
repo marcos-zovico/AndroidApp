@@ -1,7 +1,6 @@
 package app.devmedia.com.br.appdevmedia.adapter;
 
 import android.content.Context;
-import android.content.res.Resources;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
@@ -11,10 +10,11 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.squareup.picasso.Picasso;
+
 import java.util.List;
 
 import app.devmedia.com.br.appdevmedia.R;
-import app.devmedia.com.br.appdevmedia.async.AsyncImageHelper;
 import app.devmedia.com.br.appdevmedia.entity.Profissao;
 import app.devmedia.com.br.appdevmedia.util.Constantes;
 
@@ -74,7 +74,8 @@ public class ProfissaoArrayAdapter extends ArrayAdapter<Profissao> {
 
 
         ImageView imageView = (ImageView) linha.findViewById(R.id.imgProfissao);
-        new AsyncImageHelper(imageView).execute(Constantes.URL_WEB_BASE + profissao.getUrlImg());
+        Picasso.with(imageView.getContext()).load(Constantes.URL_WEB_BASE + profissao.getUrlImg()).into(imageView);
+//        new AsyncImageHelper(imageView).execute(Constantes.URL_WEB_BASE + profissao.getUrlImg());
 
         return linha;
     }

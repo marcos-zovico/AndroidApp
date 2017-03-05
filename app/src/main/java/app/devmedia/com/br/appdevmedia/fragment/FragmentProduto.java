@@ -24,7 +24,13 @@ public class FragmentProduto extends Fragment{
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
-        return inflater.inflate(R.layout.fragment_produtos, container, false);
+        View viewRoot = inflater.inflate(R.layout.fragment_produtos, container, false);
+
+       // ImageView imgProdutos = (ImageView) viewRoot.findViewById(R.id.imgProdutos);
+       // Picasso.with(imgProdutos.getContext()).load(GoogleMaterial.Icon.).into(imgProdutos);
+
+
+        return viewRoot;
 
     }
 }
