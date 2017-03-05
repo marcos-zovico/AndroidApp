@@ -7,5 +7,7 @@ public class Constantes {
 
     public static final String URL_WS_BASE = "http://192.168.0.12:8080/rest-web/rest";
 
+    public static final String URL_WEB_BASE = "http://192.168.0.12:8080/rest-web/";
+
     public static final String URL_WS_LOGIN = "http://192.168.0.12:8080/rest-web/rest/user/login?usuario={0}&senha={1}";
 }
