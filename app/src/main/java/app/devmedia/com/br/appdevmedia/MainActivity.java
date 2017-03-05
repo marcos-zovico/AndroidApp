@@ -1,5 +1,7 @@
 package app.devmedia.com.br.appdevmedia;
 
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
@@ -9,18 +11,17 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Toast;
 
 import com.mikepenz.materialdrawer.AccountHeader;
 import com.mikepenz.materialdrawer.AccountHeaderBuilder;
 import com.mikepenz.materialdrawer.Drawer;
 import com.mikepenz.materialdrawer.DrawerBuilder;
 import com.mikepenz.materialdrawer.holder.BadgeStyle;
-import com.mikepenz.materialdrawer.model.DividerDrawerItem;
 import com.mikepenz.materialdrawer.model.PrimaryDrawerItem;
 import com.mikepenz.materialdrawer.model.ProfileDrawerItem;
-import com.mikepenz.materialdrawer.model.SecondaryDrawerItem;
+import com.mikepenz.materialdrawer.model.SectionDrawerItem;
 import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
-import com.mikepenz.materialdrawer.model.interfaces.IProfile;
 
 import app.devmedia.com.br.appdevmedia.adapter.ViewPagerAdapter;
 import app.devmedia.com.br.appdevmedia.fragment.FragmentPerfil;
@@ -33,6 +34,8 @@ public class MainActivity extends AppCompatActivity {
     private TabLayout tabLayout;
     private ViewPager viewPager;
     private Drawer drawer;
+
+    private static final long ID_ND_FOOTER = 500L;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,65 +53,75 @@ public class MainActivity extends AppCompatActivity {
         tabLayout.setupWithViewPager(viewPager);
 
 
-        PrimaryDrawerItem item1 = new PrimaryDrawerItem().withName("Produtos");
-        item1.withSelectable(false);
-        final SecondaryDrawerItem item2 = new SecondaryDrawerItem().withName("Perfil");
+        final PrimaryDrawerItem itemPerfil = new PrimaryDrawerItem().withName("Perfil");
 
+        final PrimaryDrawerItem itemProdutos = new PrimaryDrawerItem()
+                .withName("Produtos")
+                .withBadge("43")
+                .withBadgeStyle(new BadgeStyle()
+                                 .withTextColor(Color.WHITE)
+                                 .withColorRes(R.color.md_orange_700));
 
-        AccountHeader headerResult = new AccountHeaderBuilder()
+        final PrimaryDrawerItem itemCompras = new PrimaryDrawerItem()
+                .withName("Ultimas compras")
+                .withBadge("2")
+                .withBadgeStyle(new BadgeStyle()
+                        .withTextColor(Color.WHITE)
+                        .withColorRes(R.color.md_orange_700));
+
+        AccountHeader accountHeader = new AccountHeaderBuilder()
                 .withActivity(this)
                 .withHeaderBackground(R.drawable.header)
                 .addProfiles(
-                        new ProfileDrawerItem().withName("Marcos Souza").withEmail("msouza@gmail.com").withIcon(R.drawable.profile)
-                )
-                .withOnAccountHeaderListener(new AccountHeader.OnAccountHeaderListener() {
-                    @Override
-                    public boolean onProfileChanged(View view, IProfile profile, boolean current) {
-                        return false;
-                    }
-
-                })
-                .build();
+                        new ProfileDrawerItem().withName("Marcos Souza")
+                                               .withEmail("msouza@gmail.com")
+                                               .withIcon(R.drawable.profile)
+                ).build();
 
 
         drawer = new DrawerBuilder()
-                .withAccountHeader(headerResult)
+                .withAccountHeader(accountHeader)
                 .withActivity(this)
                 .withToolbar(toolbar)
                 .addDrawerItems(
-                        item1,
-                        new DividerDrawerItem(),
-                        item2
+                        new SectionDrawerItem().withName("Conta do Usuário"),
+                        itemPerfil,
+                        new SectionDrawerItem().withName("Opçoẽs do Sistema"),
+                        itemProdutos,
+                        itemCompras
                 )
                 .withOnDrawerItemClickListener(new Drawer.OnDrawerItemClickListener() {
                     @Override
                     public boolean onItemClick(View view, int position, IDrawerItem drawerItem) {
-                        prepararDrawerItem(position, item2);
+                        prepararDrawerItem(position, drawerItem);
                         return  true;
                     }
                 })
                 .build();
 
+//        drawer.addItem(new DividerDrawerItem());
+        drawer.addStickyFooterItem(new PrimaryDrawerItem().withName("Sobre o App").withIdentifier(ID_ND_FOOTER));
+
     }
 
-    private void prepararDrawerItem(int position, SecondaryDrawerItem item2) {
+    private void prepararDrawerItem(int position, IDrawerItem drawerItem ) {
         viewPager.setCurrentItem(position);
-        drawer.closeDrawer();
 
-        switch (position){
-            case 0:
-                item2.withName("Segundo Texto")
-                        .withBadge("Novo")
-                        .withBadgeStyle(new BadgeStyle().withTextColor(Color.WHITE).withColorRes(R.color.md_orange_700));
+        switch ((int) drawerItem.getIdentifier()){
+            case (int) ID_ND_FOOTER:
 
-                drawer.updateItem(item2);
-                break;
+                try {
+                    PackageInfo info = getPackageManager().getPackageInfo(getPackageName(), 0);
+                    Toast.makeText(MainActivity.this, "Versão : " + info.versionName, Toast.LENGTH_SHORT).show();
+                } catch (PackageManager.NameNotFoundException e) {
+                    e.printStackTrace();
+                }
 
-            case  2:
-                drawer.addItem(new DividerDrawerItem());
-                drawer.addStickyFooterItem(new PrimaryDrawerItem().withName("StickFooterItem"));
-                break;
+                    break;
         }
+
+
+        drawer.closeDrawer();
     }
 
 
