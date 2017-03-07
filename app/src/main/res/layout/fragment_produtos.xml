@@ -13,50 +13,68 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:elevation="4dp"
         android:layout_marginBottom="10dp"
-        android:layout_marginTop="105dp"
+        android:layout_marginTop="120dp"
+        android:elevation="4dp"
         app:cardCornerRadius="4dp">
 
-        <LinearLayout
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical"
             android:padding="10dp">
 
             <com.mikepenz.iconics.view.IconicsImageView
+                android:id="@+id/imgProduto"
                 android:layout_width="72dp"
                 android:layout_height="72dp"
-                android:layout_gravity="center"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentTop="true"
+                android:layout_marginRight="10dp"
                 app:iiv_color="@android:color/holo_red_dark"
                 app:iiv_icon="gmd-favorite" />
 
-        </LinearLayout>
-    </android.support.v7.widget.CardView>
+            <TextView
+                android:id="@+id/txtTitulo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@id/imgProduto"
+                android:text="Produto teste"
+                android:textSize="20sp" />
+
+            <TextView
+                android:id="@+id/txtPreco"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentRight="true"
+                android:text="R$ 340,00"
+                android:textColor="@color/primary"
+                android:textSize="15sp" />
+
+            <TextView
+                android:id="@+id/txtDescricao"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/txtTitulo"
+                android:layout_toRightOf="@id/imgProduto"
+                android:text="Descrição teste  ffdgdfgdfgdf gdfgfdgfdg fgf dfg fdg dfgfgfffffffffffgdfgdfg  d fg dfgdf g f d g dfg dfgdfgdfgfdg"
+                android:textSize="12sp" />
 
 
-    <android.support.v7.widget.CardView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_marginTop="10dp"
-        android:elevation="4dp"
-        app:cardCornerRadius="4dp">
+            <Button
+                android:id="@+id/btnDetalhes"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/txtDescricao"
+                android:layout_toRightOf="@+id/imgProduto"
+                android:background="@null"
+                android:gravity="bottom|right"
+                android:text="Mais detalhes"
+                android:textColor="@color/primary" />
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical"
-            android:padding="10dp">
 
-            <com.mikepenz.iconics.view.IconicsImageView
-                android:layout_width="72dp"
-                android:layout_height="72dp"
-                android:layout_gravity="center"
-                app:iiv_color="@android:color/holo_orange_dark"
-                app:iiv_icon="gmd-list" />
-
-        </LinearLayout>
+        </RelativeLayout>
     </android.support.v7.widget.CardView>
 
 </LinearLayout>
