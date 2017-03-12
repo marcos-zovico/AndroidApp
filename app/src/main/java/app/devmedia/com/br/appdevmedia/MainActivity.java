@@ -26,6 +26,7 @@ import com.mikepenz.materialdrawer.model.SectionDrawerItem;
 import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
 
 import app.devmedia.com.br.appdevmedia.adapter.ViewPagerAdapter;
+import app.devmedia.com.br.appdevmedia.fragment.FragmentCompras;
 import app.devmedia.com.br.appdevmedia.fragment.FragmentPerfil;
 import app.devmedia.com.br.appdevmedia.fragment.FragmentProduto;
 
@@ -135,6 +136,7 @@ public class MainActivity extends AppCompatActivity {
     private void configurarViewPager(ViewPager viewPager){
 
         ViewPagerAdapter pagerAdapter = new ViewPagerAdapter(getSupportFragmentManager());
+        pagerAdapter.addFragment(new FragmentCompras(), "Compras");
         pagerAdapter.addFragment(new FragmentProduto(), "Produtos");
         pagerAdapter.addFragment(new FragmentPerfil(), "Perfil");
 
