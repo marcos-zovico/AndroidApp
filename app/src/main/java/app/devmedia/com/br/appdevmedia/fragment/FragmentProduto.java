@@ -34,13 +34,10 @@ import cz.msebera.android.httpclient.Header;
 public class FragmentProduto extends Fragment{
 
     private RecyclerView rv;
-    private ProdutoRecyclerAdapter recyclerAdapter;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        recyclerAdapter = new ProdutoRecyclerAdapter();
     }
 
     @Nullable
@@ -48,24 +45,22 @@ public class FragmentProduto extends Fragment{
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View viewRoot = inflater.inflate(R.layout.fragment_produtos, container, false);
 
-        final RelativeLayout lytLoading = (RelativeLayout) viewRoot.findViewById(R.id.lytProtudoLoading);
+        final RelativeLayout lytLoading = (RelativeLayout) viewRoot.findViewById(R.id.lytLoading);
         lytLoading.setVisibility(View.VISIBLE);
 
         rv = (RecyclerView) viewRoot.findViewById(R.id.rv);
-        rv.setAdapter(new ProdutoRecyclerAdapter());
+        rv.setLayoutManager(new LinearLayoutManager(getContext()));
 
         new AsyncHttpClient().get(Constantes.URL_WS_BASE + "/produto/list", new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONArray response) {
                 if (response != null) {
-                    Type type = new TypeToken<List<Produto>>() {}.getType();
+                    Type type = new TypeToken<List<Produto>>() {
+                    }.getType();
                     List<Produto> produtos = new Gson().fromJson(response.toString(), type);
-                    recyclerAdapter.setProdutos(produtos);
-                    rv.setHasFixedSize(true);
-                    rv.setLayoutManager(new LinearLayoutManager(getContext()));
-                    rv.setAdapter(recyclerAdapter);
 
-
+                    ProdutoRecyclerAdapter adapter = new ProdutoRecyclerAdapter(produtos);
+                    rv.setAdapter(adapter);
                 } else {
                     Toast.makeText(getActivity(), "Houve um erro no carregamento da lista de profissões...", Toast.LENGTH_SHORT).show();
                 }
@@ -82,4 +77,5 @@ public class FragmentProduto extends Fragment{
 
         return viewRoot;
     }
+
 }

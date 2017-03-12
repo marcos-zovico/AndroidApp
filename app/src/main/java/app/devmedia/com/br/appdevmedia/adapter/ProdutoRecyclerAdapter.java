@@ -11,6 +11,7 @@ import android.widget.Toast;
 
 import com.squareup.picasso.Picasso;
 
+import java.text.NumberFormat;
 import java.util.List;
 
 import app.devmedia.com.br.appdevmedia.R;
@@ -23,14 +24,12 @@ import app.devmedia.com.br.appdevmedia.util.Constantes;
 
 public class ProdutoRecyclerAdapter extends RecyclerView.Adapter<ProdutoRecyclerAdapter.ViewHolder> {
 
-    private List<Produto> produtos;
+    private final List<Produto> produtos;
 
     public ProdutoRecyclerAdapter(final List<Produto> produtos) {
         this.produtos = produtos;
     }
 
-    public ProdutoRecyclerAdapter() {
-    }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
 
@@ -67,7 +66,10 @@ public class ProdutoRecyclerAdapter extends RecyclerView.Adapter<ProdutoRecycler
         Produto produto = produtos.get(position);
         produtoViewHolder.txtTitulo.setText(produto.getTitulo());
         produtoViewHolder.txtDescricao.setText(produto.getDescricao());
-        produtoViewHolder.txtPreco.setText(produto.getValor().toString());
+
+        NumberFormat format = NumberFormat.getCurrencyInstance();
+
+        produtoViewHolder.txtPreco.setText(format.format(produto.getValor()));
         Picasso.with(produtoViewHolder.imgProduto.getContext())
                 .load(Constantes.URL_WEB_BASE + produto.getUrlImg())
                 .into(produtoViewHolder.imgProduto);
@@ -78,7 +80,4 @@ public class ProdutoRecyclerAdapter extends RecyclerView.Adapter<ProdutoRecycler
         return produtos.size();
     }
 
-    public void setProdutos(List<Produto> produtos) {
-        this.produtos = produtos;
-    }
 }

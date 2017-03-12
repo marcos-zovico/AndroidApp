@@ -5,26 +5,23 @@
     android:orientation="vertical"
     android:padding="10dp">
 
-
     <RelativeLayout
-        android:id="@+id/lytProtudoLoading"
+        android:id="@+id/lytLoading"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_gravity="center">
+        android:gravity="center">
 
         <ProgressBar
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:indeterminate="true" />
-
-
     </RelativeLayout>
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/rv"
+        android:paddingTop="120dp"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:scrollbars="vertical" />
-
 
 </LinearLayout>
