@@ -4,6 +4,7 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -84,7 +85,7 @@ public class FragmentCompras extends Fragment{
         CardViewNative cardViewCollapse = (CardViewNative) viewRoot.findViewById(R.id.cardCollapse);
         cardViewCollapse.setCard(cardCollapse);
 
-        new AsyncHttpClient().get(Constantes.URL_WS_BASE + "produto/list", new JsonHttpResponseHandler() {
+        new AsyncHttpClient().get(Constantes.URL_WS_BASE + "/produto/list", new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONArray response) {
 
@@ -93,6 +94,7 @@ public class FragmentCompras extends Fragment{
 
             @Override
             public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
+                Log.d("Response", responseString);
                 Toast.makeText(getActivity(), "Falha: " + responseString, Toast.LENGTH_SHORT).show();
             }
         });
