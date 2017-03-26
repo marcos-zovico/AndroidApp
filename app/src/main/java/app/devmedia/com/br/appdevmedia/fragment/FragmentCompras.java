@@ -4,7 +4,6 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -14,15 +13,15 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.loopj.android.http.AsyncHttpClient;
-import com.loopj.android.http.JsonHttpResponseHandler;
 import com.squareup.picasso.Picasso;
 
-import org.json.JSONArray;
+import java.util.ArrayList;
 
 import app.devmedia.com.br.appdevmedia.R;
 import app.devmedia.com.br.appdevmedia.util.Constantes;
-import cz.msebera.android.httpclient.Header;
+import it.gmariotti.cardslib.library.cards.actions.BaseSupplementalAction;
+import it.gmariotti.cardslib.library.cards.actions.IconSupplementalAction;
+import it.gmariotti.cardslib.library.cards.material.MaterialLargeImageCard;
 import it.gmariotti.cardslib.library.internal.Card;
 import it.gmariotti.cardslib.library.internal.CardHeader;
 import it.gmariotti.cardslib.library.internal.base.BaseCard;
@@ -46,7 +45,7 @@ public class FragmentCompras extends Fragment{
         View viewRoot = inflater.inflate(R.layout.fragment_compras, container, false);
 
         final RelativeLayout lytLoading = (RelativeLayout) viewRoot.findViewById(R.id.lytLoading);
-        lytLoading.setVisibility(View.VISIBLE);
+        lytLoading.setVisibility(View.GONE);
 
         Card card = new Card(getContext());
 
@@ -85,19 +84,37 @@ public class FragmentCompras extends Fragment{
         CardViewNative cardViewCollapse = (CardViewNative) viewRoot.findViewById(R.id.cardCollapse);
         cardViewCollapse.setCard(cardCollapse);
 
-        new AsyncHttpClient().get(Constantes.URL_WS_BASE + "/produto/list", new JsonHttpResponseHandler() {
-            @Override
-            public void onSuccess(int statusCode, Header[] headers, JSONArray response) {
 
-                lytLoading.setVisibility(View.GONE);
-            }
+        // Set supplemental actions as icon
+        ArrayList<BaseSupplementalAction> actions = new ArrayList<BaseSupplementalAction>();
 
+        IconSupplementalAction t1 = new IconSupplementalAction(getActivity(), R.id.ic1);
+        t1.setOnActionClickListener(new BaseSupplementalAction.OnActionClickListener() {
             @Override
-            public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
-                Log.d("Response", responseString);
-                Toast.makeText(getActivity(), "Falha: " + responseString, Toast.LENGTH_SHORT).show();
+            public void onClick(Card card, View view) {
+                Toast.makeText(getActivity()," Click on Text SHARE ",Toast.LENGTH_SHORT).show();
             }
         });
+        actions.add(t1);
+
+        IconSupplementalAction t2 = new IconSupplementalAction(getActivity(), R.id.ic2);
+        t2.setOnActionClickListener(new BaseSupplementalAction.OnActionClickListener() {
+            @Override
+            public void onClick(Card card, View view) {
+                Toast.makeText(getActivity()," Click on Text LEARN ",Toast.LENGTH_SHORT).show();
+            }
+        });
+        actions.add(t2);
+
+        MaterialLargeImageCard cardMaterial=
+                MaterialLargeImageCard.with(getActivity())
+                        .setTextOverImage("Italian Beaches")
+                        .useDrawableId(R.drawable.header)
+                        .setupSupplementalActions(R.layout.carddemo_native_material_supplemental_actions_large_icon,actions )
+                        .build();
+
+        CardViewNative cardViewMaterial = (CardViewNative) viewRoot.findViewById(R.id.carddemo_largeimage);
+        cardViewMaterial.setCard(cardMaterial);
 
         return viewRoot;
     }
