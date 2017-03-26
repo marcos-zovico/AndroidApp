@@ -22,7 +22,7 @@
     android:orientation="horizontal"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="@dimen/actions_padding"
+    android:padding="5dp"
     android:gravity="right"
     android:paddingLeft="@dimen/actions_padding_left"
     android:paddingRight="@dimen/actions_padding_left">
@@ -30,7 +30,7 @@
     <ImageButton
         android:id="@+id/ic1"
         android:scaleType="fitCenter"
-        android:src="@android:drawable/ic_menu_search"
+        android:src="@drawable/ic_search_black_24dp"
         android:background="?android:selectableItemBackground"
         style="@style/card.native.actions.button"
         android:layout_marginRight="8dp"
@@ -41,7 +41,7 @@
         android:scaleType="fitCenter"
         android:id="@+id/ic2"
         android:background="?android:selectableItemBackground"
-        android:src="@android:drawable/ic_menu_delete"
+        android:src="@drawable/ic_mail_black_24dp"
         style="@style/card.native.actions.button"
         android:layout_marginRight="8dp"
     />

@@ -109,7 +109,19 @@ public class FragmentCompras extends Fragment{
         MaterialLargeImageCard cardMaterial=
                 MaterialLargeImageCard.with(getActivity())
                         .setTextOverImage("Italian Beaches")
-                        .useDrawableId(R.drawable.header)
+                        .setTitle("Titulo examplo")
+                        .setSubTitle("Sbu titulo examplo")
+                        .useDrawableExternal(new MaterialLargeImageCard.DrawableExternal() {
+                            @Override
+                            public void setupInnerViewElements(ViewGroup parent, View viewImage) {
+
+                                Picasso.with(getActivity()).setIndicatorsEnabled(true);  //only for debug tests
+                                Picasso.with(getActivity())
+                                        .load("http://www.maremmaguide.com/image-files/italian_beaches_500.jpg")
+                                        .error(R.drawable.header)
+                                        .into((ImageView) viewImage);
+                            }
+                        })
                         .setupSupplementalActions(R.layout.carddemo_native_material_supplemental_actions_large_icon,actions )
                         .build();
 
