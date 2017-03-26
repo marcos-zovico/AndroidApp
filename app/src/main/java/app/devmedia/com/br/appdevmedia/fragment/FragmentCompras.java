@@ -4,6 +4,7 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.LinearLayoutManager;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -25,6 +26,8 @@ import it.gmariotti.cardslib.library.cards.material.MaterialLargeImageCard;
 import it.gmariotti.cardslib.library.internal.Card;
 import it.gmariotti.cardslib.library.internal.CardHeader;
 import it.gmariotti.cardslib.library.internal.base.BaseCard;
+import it.gmariotti.cardslib.library.recyclerview.internal.CardArrayRecyclerViewAdapter;
+import it.gmariotti.cardslib.library.recyclerview.view.CardRecyclerView;
 import it.gmariotti.cardslib.library.view.CardViewNative;
 
 /**
@@ -86,50 +89,76 @@ public class FragmentCompras extends Fragment{
 
 
         // Set supplemental actions as icon
-        ArrayList<BaseSupplementalAction> actions = new ArrayList<BaseSupplementalAction>();
+        CardArrayRecyclerViewAdapter mCardArrayAdapter = new CardArrayRecyclerViewAdapter(getActivity(), carregarMaterialRecycler(viewRoot));
 
-        IconSupplementalAction t1 = new IconSupplementalAction(getActivity(), R.id.ic1);
-        t1.setOnActionClickListener(new BaseSupplementalAction.OnActionClickListener() {
-            @Override
-            public void onClick(Card card, View view) {
-                Toast.makeText(getActivity()," Click on Text SHARE ",Toast.LENGTH_SHORT).show();
-            }
-        });
-        actions.add(t1);
+        //Staggered grid view
+        CardRecyclerView mRecyclerView = (CardRecyclerView) viewRoot.findViewById(R.id.carddemo_recyclerview);
+        mRecyclerView.setHasFixedSize(false);
+        mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
-        IconSupplementalAction t2 = new IconSupplementalAction(getActivity(), R.id.ic2);
-        t2.setOnActionClickListener(new BaseSupplementalAction.OnActionClickListener() {
-            @Override
-            public void onClick(Card card, View view) {
-                Toast.makeText(getActivity()," Click on Text LEARN ",Toast.LENGTH_SHORT).show();
-            }
-        });
-        actions.add(t2);
+        //Set the empty view
+        if (mRecyclerView != null) {
+            mRecyclerView.setAdapter(mCardArrayAdapter);
+        }
 
-        MaterialLargeImageCard cardMaterial=
-                MaterialLargeImageCard.with(getActivity())
-                        .setTextOverImage("Italian Beaches")
-                        .setTitle("Titulo examplo")
-                        .setSubTitle("Sbu titulo examplo")
-                        .useDrawableExternal(new MaterialLargeImageCard.DrawableExternal() {
-                            @Override
-                            public void setupInnerViewElements(ViewGroup parent, View viewImage) {
-
-                                Picasso.with(getActivity()).setIndicatorsEnabled(true);  //only for debug tests
-                                Picasso.with(getActivity())
-                                        .load("http://www.maremmaguide.com/image-files/italian_beaches_500.jpg")
-                                        .error(R.drawable.header)
-                                        .into((ImageView) viewImage);
-                            }
-                        })
-                        .setupSupplementalActions(R.layout.carddemo_native_material_supplemental_actions_large_icon,actions )
-                        .build();
-
-        CardViewNative cardViewMaterial = (CardViewNative) viewRoot.findViewById(R.id.carddemo_largeimage);
-        cardViewMaterial.setCard(cardMaterial);
 
         return viewRoot;
     }
+
+    private ArrayList<Card> carregarMaterialRecycler(View viewRoot){
+
+        ArrayList<Card> cards = new ArrayList<Card>();
+
+        for (int i = 0; i < 3; i++){
+            ArrayList<BaseSupplementalAction> actions = new ArrayList<BaseSupplementalAction>();
+
+            IconSupplementalAction t1 = new IconSupplementalAction(getActivity(), R.id.ic1);
+            t1.setOnActionClickListener(new BaseSupplementalAction.OnActionClickListener() {
+                @Override
+                public void onClick(Card card, View view) {
+                    Toast.makeText(getActivity()," Click on Text SHARE ",Toast.LENGTH_SHORT).show();
+                }
+            });
+            actions.add(t1);
+
+            IconSupplementalAction t2 = new IconSupplementalAction(getActivity(), R.id.ic2);
+            t2.setOnActionClickListener(new BaseSupplementalAction.OnActionClickListener() {
+                @Override
+                public void onClick(Card card, View view) {
+                    Toast.makeText(getActivity()," Click on Text LEARN ",Toast.LENGTH_SHORT).show();
+                }
+            });
+            actions.add(t2);
+
+            MaterialLargeImageCard cardMaterial=
+                    MaterialLargeImageCard.with(getActivity())
+                            .setTextOverImage("Italian Beaches" + i)
+                            .setTitle("Titulo examplo"+ i)
+                            .setSubTitle("Sbu titulo examplo"+ i)
+                            .useDrawableExternal(new MaterialLargeImageCard.DrawableExternal() {
+                                @Override
+                                public void setupInnerViewElements(ViewGroup parent, View viewImage) {
+
+                                    Picasso.with(getActivity()).setIndicatorsEnabled(true);  //only for debug tests
+                                    Picasso.with(getActivity())
+                                            .load("http://www.maremmaguide.com/image-files/italian_beaches_500.jpg")
+                                            .error(R.drawable.header)
+                                            .into((ImageView) viewImage);
+                                }
+                            })
+                            .setupSupplementalActions(R.layout.carddemo_native_material_supplemental_actions_large_icon,actions )
+                            .build();
+
+            CardViewNative cardViewMaterial = (CardViewNative) viewRoot.findViewById(R.id.carddemo_largeimage);
+            cardViewMaterial.setCard(cardMaterial);
+
+            cards.add(cardMaterial);
+
+        }
+        return cards;
+
+    }
+
 
     private class CompraInnerHeader extends CardHeader {
 
