@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "594101444082",
+    "firebase_url": "https://msouza-android-push.firebaseio.com",
+    "project_id": "msouza-android-push",
+    "storage_bucket": "msouza-android-push.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:594101444082:android:befbb9b6a7c52c46",
+        "android_client_info": {
+          "package_name": "app.devmedia.com.br.appdevmedia"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "594101444082-9b9e91dacglc8bgae3nnvcmd8s3f6mon.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDRlOCasKs_rboZJbphKEDqiC7OgtHHCe0"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
