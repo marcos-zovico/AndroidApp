@@ -37,8 +37,8 @@ dependencies {
     compile 'com.github.gabrielemariotti.cards:cardslib-core:2.1.0'
     compile 'com.github.gabrielemariotti.cards:cardslib-cards:2.1.0'
     compile 'com.github.gabrielemariotti.cards:cardslib-recyclerview:2.1.0'
-    compile 'com.google.firebase:firebase-core:9.6.1'
-//    compile 'com.google.android.gms:play-services-gcm:9.6.1'
+    compile 'com.google.firebase:firebase-messaging:9.6.1'
+    compile 'com.google.android.gms:play-services-gcm:9.6.1'
 }
 
 
