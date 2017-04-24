@@ -1,10 +1,15 @@
 package app.devmedia.com.br.appdevmedia;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -25,10 +30,14 @@ import com.mikepenz.materialdrawer.model.ProfileDrawerItem;
 import com.mikepenz.materialdrawer.model.SectionDrawerItem;
 import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
 
+import java.io.Serializable;
+
 import app.devmedia.com.br.appdevmedia.adapter.ViewPagerAdapter;
+import app.devmedia.com.br.appdevmedia.entity.ProdutoNotification;
 import app.devmedia.com.br.appdevmedia.fragment.FragmentCompras;
 import app.devmedia.com.br.appdevmedia.fragment.FragmentPerfil;
 import app.devmedia.com.br.appdevmedia.fragment.FragmentProduto;
+import app.devmedia.com.br.appdevmedia.gcm.RegistrationIntentService;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -38,7 +47,12 @@ public class MainActivity extends AppCompatActivity {
     private ViewPager viewPager;
     private Drawer drawer;
 
+    private BroadcastReceiver registrationBroadcastReceiver;
+
     private static final long ID_ND_FOOTER = 500L;
+
+    private static final String REGISTRATION_COMPPLETE = "REGISTRATION_COMPPLETE";
+    private static final String PUSH = "PUSH";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -110,6 +124,14 @@ public class MainActivity extends AppCompatActivity {
                     .withIdentifier(ID_ND_FOOTER)
                     .withIcon(GoogleMaterial.Icon.gmd_info));
 
+
+        Serializable serializable = getIntent().getExtras().getSerializable("nf_produto");
+        if (serializable != null) {
+            ProdutoNotification nf_produto = (ProdutoNotification) serializable;
+            Toast.makeText(MainActivity.this, nf_produto.toString(), Toast.LENGTH_SHORT).show();
+        }
+
+
     }
 
     private void prepararDrawerItem(int position, IDrawerItem drawerItem ) {
@@ -162,5 +184,28 @@ public class MainActivity extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    private void configurarGCM() {
+        registrationBroadcastReceiver = new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+                String token = intent.getStringExtra("token");
+                Toast.makeText(MainActivity.this, "Token: " + token, Toast.LENGTH_SHORT).show();
+            }
+        };
+
+        Intent intent = new Intent(this, RegistrationIntentService.class);
+        intent.putExtra("key", "register");
+        startService(intent);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        LocalBroadcastManager.getInstance(this).registerReceiver(registrationBroadcastReceiver, new IntentFilter(REGISTRATION_COMPPLETE));
+
+        LocalBroadcastManager.getInstance(this).registerReceiver(registrationBroadcastReceiver, new IntentFilter(PUSH));
     }
 }
