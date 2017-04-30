@@ -5,14 +5,12 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.google.android.gms.gcm.GoogleCloudMessaging;
 import com.google.android.gms.iid.InstanceID;
-import com.loopj.android.http.JsonHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
-
-import org.json.JSONException;
-import org.json.JSONObject;
+import com.loopj.android.http.TextHttpResponseHandler;
 
 import java.io.IOException;
 
@@ -53,19 +51,22 @@ public class RegistrationIntentService extends IntentService {
                 params.put("login", login);
                 params.put("token", token);
 
-                AsyncUsuarioHttpClient.post("gcm/sendToken", params, new JsonHttpResponseHandler() {
+
+                AsyncUsuarioHttpClient.post("gcm/sendToken", params, new TextHttpResponseHandler() {
+
                     @Override
-                    public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
-                        try {
-                            Log.d(TAG, response.getString("msg"));
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
+                    public void onFailure(int statusCode, Header[] headers, String resultado, Throwable throwable) {
+                        Log.e(RegistrationIntentService.class.getName(), "Erro no registro do token! Http Code: " + statusCode, throwable);
+                        Toast.makeText(RegistrationIntentService.this, "Erro no registro do token: " + resultado, Toast.LENGTH_SHORT).show();
                     }
 
                     @Override
-                    public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
-                        Log.e(TAG, responseString, throwable);
+                    public void onSuccess(int statusCode, Header[] headers, String resultado) {
+                        if (Boolean.valueOf(resultado)) {
+                            Toast.makeText(RegistrationIntentService.this, "Registro do token: " + resultado, Toast.LENGTH_SHORT).show();
+                        } else {
+                            Toast.makeText(RegistrationIntentService.this, "Erro no registro do token: " + resultado, Toast.LENGTH_SHORT).show();
+                        }
                     }
                 });
             } else {
