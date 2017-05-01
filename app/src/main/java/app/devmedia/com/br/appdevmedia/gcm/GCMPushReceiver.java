@@ -22,12 +22,14 @@ public class GCMPushReceiver extends GcmListenerService {
         String message = bundle.getString("message");
         String data = bundle.getString("data");
         String idProduto = bundle.getString("id");
+        String imgUrl = bundle.getString("imgUrl");
 
         ProdutoNotification produtoNotification = new ProdutoNotification(Integer.parseInt(idProduto), titulo, message, data);
 
         Intent i = new Intent(getApplicationContext(), MainActivity.class);
         i.putExtra("nf_produto", produtoNotification);
 
-        notificationUtil.showSmallNotificationMsg(titulo, message, data, i);
+        NotificationUtil notificationUtil = new NotificationUtil(getApplicationContext());
+        notificationUtil.showBigNotificationMsg(titulo, message, data, i, null, imgUrl);
     }
 }

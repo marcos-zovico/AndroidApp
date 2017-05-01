@@ -125,12 +125,13 @@ public class MainActivity extends AppCompatActivity {
                     .withIcon(GoogleMaterial.Icon.gmd_info));
 
 
-        Serializable serializable = getIntent().getExtras().getSerializable("nf_produto");
+        Serializable serializable = null; // getIntent().getExtras().getSerializable("nf_produto");
         if (serializable != null) {
             ProdutoNotification nf_produto = (ProdutoNotification) serializable;
             Toast.makeText(MainActivity.this, nf_produto.toString(), Toast.LENGTH_SHORT).show();
         }
 
+        configurarGCM();
 
     }
 

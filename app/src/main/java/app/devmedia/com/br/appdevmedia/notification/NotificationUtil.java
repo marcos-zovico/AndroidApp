@@ -26,11 +26,12 @@ import java.util.Date;
 import app.devmedia.com.br.appdevmedia.R;
 
 /**
- * Created by Diogo on 15/05/2016.
+ * Created by marcos on 15/05/2016.
  */
 public class NotificationUtil {
 
     public static final int NOTIFICATION_ID = 357;
+
     public static final int BIG_NOTIFICATION_ID = 358;
 
     private Context context;
@@ -39,18 +40,19 @@ public class NotificationUtil {
         this.context = context;
     }
 
-
-    public void showSmallNotificationMsg(String titulo, String msg, String timestamp, Intent intent) {
-        showBigNotificationMsg(titulo, msg, timestamp, intent, null);
+    public void showSmallNotificationMsg(String titulo, String msg, String timestamp, String iconUrl, Intent intent) {
+        showBigNotificationMsg(titulo, msg, timestamp, intent, iconUrl, null);
     }
 
-    public void showBigNotificationMsg(String titulo, String msg, String timestamp, Intent intent, String imgUrl) {
-
+    public void showBigNotificationMsg(String titulo, String msg, String timestamp, Intent intent, String iconUrl, String imgUrl) {
         if (TextUtils.isEmpty(msg)) {
             return;
         }
 
-        final int icon = R.mipmap.ic_launcher;
+        Bitmap icon = null;
+        if (iconUrl == null) {
+            icon = BitmapFactory.decodeResource(context.getResources(), R.mipmap.ic_launcher);
+        }
 
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
         final PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, intent, PendingIntent.FLAG_CANCEL_CURRENT);
@@ -74,7 +76,7 @@ public class NotificationUtil {
     }
 
     private void showSmallNotification(NotificationCompat.Builder builder, //
-                                       int icon, //
+                                       Bitmap icon, //
                                        String titulo, //
                                        String msg, //
                                        String timestamp, //
@@ -84,7 +86,7 @@ public class NotificationUtil {
 
         inboxStyle.addLine(msg);
 
-        Notification notification = builder.setSmallIcon(icon)
+        Notification notification = builder.setSmallIcon(R.mipmap.ic_launcher)
                 .setTicker(titulo)
                 .setContentTitle(titulo)
                 .setContentText(msg)
@@ -92,7 +94,7 @@ public class NotificationUtil {
                 .setAutoCancel(true)
                 .setSound(somAlarme)
                 .setWhen(getTimeInMilliSec(timestamp))
-                .setLargeIcon(BitmapFactory.decodeResource(context.getResources(), icon))
+                .setLargeIcon(icon)
                 .setNumber(4)
                 .setStyle(inboxStyle)
                 .build();
@@ -103,7 +105,7 @@ public class NotificationUtil {
 
     private void showBigNotification(Bitmap bitmap, //
                                      NotificationCompat.Builder builder, //
-                                     int icon, //
+                                     Bitmap icon, //
                                      String titulo, //
                                      String msg, //
                                      String timestamp, //
@@ -114,7 +116,7 @@ public class NotificationUtil {
         bigPictureStyle.setSummaryText(Html.fromHtml(msg).toString());
         bigPictureStyle.bigPicture(bitmap);
 
-        Notification notification = builder.setSmallIcon(icon)
+        Notification notification = builder.setSmallIcon(R.mipmap.ic_launcher)
                 .setTicker(titulo)
                 .setContentTitle(titulo)
                 .setContentText(msg)
@@ -122,7 +124,7 @@ public class NotificationUtil {
                 .setAutoCancel(true)
                 .setSound(somAlarme)
                 .setWhen(getTimeInMilliSec(timestamp))
-                .setLargeIcon(BitmapFactory.decodeResource(context.getResources(), icon))
+                .setLargeIcon(icon)
                 .setNumber(4)
                 .setStyle(bigPictureStyle)
                 .build();

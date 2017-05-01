@@ -52,7 +52,7 @@ public class RegistrationIntentService extends IntentService {
                 params.put("token", token);
 
 
-                AsyncUsuarioHttpClient.post("gcm/sendToken", params, new TextHttpResponseHandler() {
+                AsyncUsuarioHttpClient.post("/gcm/sendToken", params, new TextHttpResponseHandler() {
 
                     @Override
                     public void onFailure(int statusCode, Header[] headers, String resultado, Throwable throwable) {
