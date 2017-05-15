@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
+import android.util.Log;
 
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.AsyncHttpResponseHandler;
@@ -40,7 +41,12 @@ public class AsyncUsuarioHttpClient  {
     }
 
     private static String getAbsoluteUrl(String relativeUrl) {
-        return Constantes.URL_WS_BASE + relativeUrl;
+
+        String absoluteUrl = Constantes.URL_WS_BASE + relativeUrl;
+
+        Log.i("absolute URL", absoluteUrl);
+
+        return absoluteUrl;
     }
 
 
