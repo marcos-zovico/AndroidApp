@@ -10,7 +10,7 @@ import app.devmedia.com.br.appdevmedia.entity.ProdutoNotification;
 import app.devmedia.com.br.appdevmedia.notification.NotificationUtil;
 
 /**
- * Created by Diogo on 15/05/2016.
+ * Marcos on 15/05/2016.
  */
 public class GCMPushReceiver extends GcmListenerService {
 

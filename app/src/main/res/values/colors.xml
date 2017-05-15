@@ -9,4 +9,12 @@
     <color name="ColorInfo">#52c5b9</color>
     <color name="ColorError">#ff081e</color>
     <color name="ColorAlert">#ffae41</color>
+
+    <!-- Estilos da listagem de produtos -->
+    <color name="cor_linha_divisor">#d9d9d9</color>
+    <color name="cor_linha_inicio">#fff</color>
+    <color name="cor_linha_fim">#fff</color>
+    <color name="cor_linha_inicio_hover">#ebeef0</color>
+    <color name="cor_linha_fim_hover">#ebeef0</color>
+
 </resources>

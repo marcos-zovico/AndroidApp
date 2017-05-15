@@ -7,7 +7,10 @@
     <ListView
         android:id="@+id/lstProdutos"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:dividerHeight="1dp"
+        android:listSelector="@drawable/linha_lista_seletor"
+        android:divider="@color/cor_linha_divisor"/>
 
     <Button
         android:id="@+id/btnCheckout"
