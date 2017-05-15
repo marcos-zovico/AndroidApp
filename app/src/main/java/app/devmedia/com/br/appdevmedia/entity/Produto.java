@@ -14,16 +14,20 @@ public class Produto {
 
     private String urlImg;
 
+    private String sku;
+
+
     public Produto() {
 
     }
 
-    public Produto(int id, String titulo, String descricao, BigDecimal valor, String urlImg) {
+    public Produto(int id, String titulo, String descricao, BigDecimal valor, String urlImg, String sku) {
         this.id = id;
         this.titulo = titulo;
         this.descricao = descricao;
         this.valor = valor;
         this.urlImg = urlImg;
+        this.sku = sku;
     }
 
     public int getId() {
@@ -64,6 +68,14 @@ public class Produto {
 
     public void setUrlImg(String urlImg) {
         this.urlImg = urlImg;
+    }
+
+    public String getSku() {
+        return sku;
+    }
+
+    public void setSku(String sku) {
+        this.sku = sku;
     }
 
 }
