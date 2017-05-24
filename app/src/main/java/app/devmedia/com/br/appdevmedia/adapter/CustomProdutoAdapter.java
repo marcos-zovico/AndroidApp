@@ -78,8 +78,7 @@ public class CustomProdutoAdapter extends BaseAdapter {
         txtTitulo.setText(produto.getTitulo());
         txtDescricao.setText(produto.getDescricao());
 
-        NumberFormat numberFormat = NumberFormat.getCurrencyInstance(new Locale("pt_BR"));
-        String valor = "R$ " + numberFormat.format(produto.getValor());
+        String valor = NumberFormat.getCurrencyInstance().format(produto.getValor());
 
         txtPreco.setText(valor);
 

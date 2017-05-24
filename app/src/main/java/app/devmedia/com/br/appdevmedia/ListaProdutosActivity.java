@@ -4,6 +4,7 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ListView;
@@ -17,11 +18,14 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.paypal.android.sdk.payments.PayPalConfiguration;
 import com.paypal.android.sdk.payments.PayPalItem;
+import com.paypal.android.sdk.payments.PayPalPayment;
+import com.paypal.android.sdk.payments.PayPalPaymentDetails;
 import com.paypal.android.sdk.payments.PayPalService;
 
 import org.json.JSONArray;
 
 import java.lang.reflect.Type;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -52,6 +56,9 @@ public class ListaProdutosActivity extends AppCompatActivity implements CustomPr
         super.onCreate(savedInstanceState);
         setContentView(R.layout.lista_produtos);
         setTitle("Lista de Produtos");
+
+        getSupportActionBar().setDefaultDisplayHomeAsUpEnabled(Boolean.TRUE);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(Boolean.TRUE);
 
         lstProdutos = (ListView) findViewById(R.id.lstProdutos);
         btnCheckout = (Button) findViewById(R.id.btnCheckout);
@@ -104,8 +111,26 @@ public class ListaProdutosActivity extends AppCompatActivity implements CustomPr
         DevMediaApp.getInstance().addToRequestQueue(request);
     }
 
-    private void executarPagtoPayPal() {
+    private PayPalPayment montarPagtoFinal() {
+        PayPalItem[] itens = new PayPalItem[produtosCarrinho.size()];
+        itens = produtosCarrinho.toArray(itens);
 
+        // Valor total do pagto
+        BigDecimal total = PayPalItem.getItemTotal(itens);
+
+        PayPalPaymentDetails detalhes = new PayPalPaymentDetails(BigDecimal.ZERO, total, BigDecimal.ZERO);
+
+        PayPalPayment payPalPayment = new PayPalPayment(total, Constantes.PAYPAL_CURRENCY, "Transação de compra em processamento...", Constantes.PAYPAL_INTENT);
+
+        payPalPayment.items(itens).paymentDetails(detalhes);
+
+        payPalPayment.custom("Compra de Produtos - Loja DevMedia");
+
+        return payPalPayment;
+    }
+
+    private void executarPagtoPayPal() {
+        PayPalPayment pagto = montarPagtoFinal();
     }
 
     @Override
@@ -129,4 +154,17 @@ public class ListaProdutosActivity extends AppCompatActivity implements CustomPr
         progressDialog.setMessage("Carregando...");
         progressDialog.show();
     }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                finish();
+                break;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+        return true;
+    }
+
 }
