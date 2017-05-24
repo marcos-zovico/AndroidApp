@@ -50,6 +50,7 @@ public class MainActivity extends AppCompatActivity {
     private BroadcastReceiver registrationBroadcastReceiver;
 
     private static final long ID_ND_FOOTER = 500L;
+    private static final long ID_ND_PRODUTOS = 501L;
 
     private static final String REGISTRATION_COMPPLETE = "REGISTRATION_COMPPLETE";
     private static final String PUSH = "PUSH";
@@ -77,10 +78,11 @@ public class MainActivity extends AppCompatActivity {
         final PrimaryDrawerItem itemProdutos = new PrimaryDrawerItem()
                 .withName("Produtos")
                 .withBadge("43")
+                .withIdentifier(ID_ND_PRODUTOS)
                 .withIcon(FontAwesome.Icon.faw_th_list)
                 .withBadgeStyle(new BadgeStyle()
-                                 .withTextColor(Color.WHITE)
-                                 .withColorRes(R.color.md_orange_700));
+                        .withTextColor(Color.WHITE)
+                        .withColorRes(R.color.md_orange_700));
 
         final PrimaryDrawerItem itemCompras = new PrimaryDrawerItem()
                 .withName("Ultimas compras")
@@ -95,8 +97,8 @@ public class MainActivity extends AppCompatActivity {
                 .withHeaderBackground(R.drawable.header)
                 .addProfiles(
                         new ProfileDrawerItem().withName("Marcos Souza")
-                                               .withEmail("msouza@gmail.com")
-                                               .withIcon(R.drawable.profile)
+                                .withEmail("msouza@gmail.com")
+                                .withIcon(R.drawable.profile)
                 ).build();
 
 
@@ -115,14 +117,14 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public boolean onItemClick(View view, int position, IDrawerItem drawerItem) {
                         prepararDrawerItem(position, drawerItem);
-                        return  true;
+                        return true;
                     }
                 })
                 .build();
 
         drawer.addStickyFooterItem(new PrimaryDrawerItem().withName("Sobre o App")
-                    .withIdentifier(ID_ND_FOOTER)
-                    .withIcon(GoogleMaterial.Icon.gmd_info));
+                .withIdentifier(ID_ND_FOOTER)
+                .withIcon(GoogleMaterial.Icon.gmd_info));
 
 
         Serializable serializable = null; // getIntent().getExtras().getSerializable("nf_produto");
@@ -135,10 +137,10 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    private void prepararDrawerItem(int position, IDrawerItem drawerItem ) {
+    private void prepararDrawerItem(int position, IDrawerItem drawerItem) {
         viewPager.setCurrentItem(position);
 
-        switch ((int) drawerItem.getIdentifier()){
+        switch ((int) drawerItem.getIdentifier()) {
             case (int) ID_ND_FOOTER:
 
                 try {
@@ -148,7 +150,11 @@ public class MainActivity extends AppCompatActivity {
                     e.printStackTrace();
                 }
 
-                    break;
+                break;
+            case (int) ID_ND_PRODUTOS:
+                Intent intent = new Intent(this, ListaProdutosActivity.class);
+                startActivity(intent);
+                break;
         }
 
 
@@ -156,7 +162,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-    private void configurarViewPager(ViewPager viewPager){
+    private void configurarViewPager(ViewPager viewPager) {
 
         ViewPagerAdapter pagerAdapter = new ViewPagerAdapter(getSupportFragmentManager());
         pagerAdapter.addFragment(new FragmentCompras(), "Compras");

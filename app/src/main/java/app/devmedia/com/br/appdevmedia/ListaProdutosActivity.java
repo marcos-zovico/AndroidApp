@@ -36,13 +36,14 @@ public class ListaProdutosActivity extends AppCompatActivity implements CustomPr
     private Button btnCheckout;
 
     private CustomProdutoAdapter customProdutoAdapter;
-    private List<Produto> produtos;
+    private List<Produto> produtos = new ArrayList<>();
 
     private ProgressDialog progressDialog;
 
     private List<PayPalItem> produtosCarrinho = new ArrayList<>();
 
-    private PayPalConfiguration payPalConfig = new PayPalConfiguration().environment(Constantes.PAYPAL_ENV)
+    private PayPalConfiguration payPalConfig = new PayPalConfiguration()
+            .environment(Constantes.PAYPAL_ENV)
             .clientId(Constantes.PAYPAL_CLIENT_ID)
             .languageOrLocale("pt_BR");
 
@@ -50,6 +51,7 @@ public class ListaProdutosActivity extends AppCompatActivity implements CustomPr
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.lista_produtos);
+        setTitle("Lista de Produtos");
 
         lstProdutos = (ListView) findViewById(R.id.lstProdutos);
         btnCheckout = (Button) findViewById(R.id.btnCheckout);
@@ -82,7 +84,8 @@ public class ListaProdutosActivity extends AppCompatActivity implements CustomPr
         JsonArrayRequest request = new UTF8ParseJson(Constantes.URL_WS_PRODUTOS, new Response.Listener<JSONArray>() {
             @Override
             public void onResponse(JSONArray response) {
-                Type type = new TypeToken<List<Produto>>() {}.getType();
+                Type type = new TypeToken<List<Produto>>() {
+                }.getType();
                 List<Produto> produtos = new Gson().fromJson(response.toString(), type);
                 ListaProdutosActivity.this.produtos.addAll(produtos);
 
@@ -98,7 +101,6 @@ public class ListaProdutosActivity extends AppCompatActivity implements CustomPr
                     }
                 }
         );
-
         DevMediaApp.getInstance().addToRequestQueue(request);
     }
 
@@ -108,7 +110,6 @@ public class ListaProdutosActivity extends AppCompatActivity implements CustomPr
 
     @Override
     public void onAddCarrinhoPressed(Produto produto) {
-
         PayPalItem payPalItem = new PayPalItem(
                 produto.getTitulo(),
                 1,
@@ -120,7 +121,6 @@ public class ListaProdutosActivity extends AppCompatActivity implements CustomPr
         produtosCarrinho.add(payPalItem);
 
         Toast.makeText(ListaProdutosActivity.this, "Produto " + produto.getTitulo() + " adicionado ao carrinho!", Toast.LENGTH_SHORT).show();
-
     }
 
     private void showProgressDialog() {

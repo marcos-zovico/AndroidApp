@@ -9,6 +9,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:dividerHeight="1dp"
+        android:layout_marginBottom="55dp"
         android:listSelector="@drawable/linha_lista_seletor"
         android:divider="@color/cor_linha_divisor"/>
 

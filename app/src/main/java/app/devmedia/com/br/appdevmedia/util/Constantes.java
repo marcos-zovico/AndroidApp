@@ -22,7 +22,7 @@ public class Constantes {
 
     public static final String URL_WEB_BASE = "http://192.168.0.12:8080/lojavirtual-web/";
 
-    public static final String URL_WS_PRODUTOS = URL_WEB_BASE + "produto/list";
+    public static final String URL_WS_PRODUTOS = URL_WS_BASE + "/produto/list";
 
-    public static final String URL_WS_CHECK_PAYMENT = URL_WEB_BASE + "paypal/check";
+    public static final String URL_WS_CHECK_PAYMENT = URL_WS_BASE + "/paypal/check";
 }

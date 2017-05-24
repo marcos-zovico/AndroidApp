@@ -19,6 +19,7 @@ import java.util.Locale;
 import app.devmedia.com.br.appdevmedia.DevMediaApp;
 import app.devmedia.com.br.appdevmedia.R;
 import app.devmedia.com.br.appdevmedia.entity.Produto;
+import app.devmedia.com.br.appdevmedia.util.Constantes;
 
 /**
  * Marcos on 25/06/2016.
@@ -72,12 +73,12 @@ public class CustomProdutoAdapter extends BaseAdapter {
 
         final Produto produto = produtos.get(position);
 
-        imgProduto.setImageUrl(produto.getUrlImg(), imageLoader);
+        imgProduto.setImageUrl(Constantes.URL_WEB_BASE + produto.getUrlImg(), imageLoader);
 
         txtTitulo.setText(produto.getTitulo());
         txtDescricao.setText(produto.getDescricao());
 
-        NumberFormat numberFormat = NumberFormat.getCurrencyInstance(new Locale("pt"));
+        NumberFormat numberFormat = NumberFormat.getCurrencyInstance(new Locale("pt_BR"));
         String valor = "R$ " + numberFormat.format(produto.getValor());
 
         txtPreco.setText(valor);
