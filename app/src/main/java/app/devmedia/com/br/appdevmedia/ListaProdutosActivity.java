@@ -1,5 +1,6 @@
 package app.devmedia.com.br.appdevmedia;
 
+import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
@@ -10,10 +11,12 @@ import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.VolleyLog;
 import com.android.volley.toolbox.JsonArrayRequest;
+import com.android.volley.toolbox.StringRequest;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.paypal.android.sdk.payments.PayPalConfiguration;
@@ -21,8 +24,11 @@ import com.paypal.android.sdk.payments.PayPalItem;
 import com.paypal.android.sdk.payments.PayPalPayment;
 import com.paypal.android.sdk.payments.PayPalPaymentDetails;
 import com.paypal.android.sdk.payments.PayPalService;
+import com.paypal.android.sdk.payments.PaymentActivity;
+import com.paypal.android.sdk.payments.PaymentConfirmation;
 
 import org.json.JSONArray;
+import org.json.JSONObject;
 
 import java.lang.reflect.Type;
 import java.math.BigDecimal;
@@ -50,6 +56,8 @@ public class ListaProdutosActivity extends AppCompatActivity implements CustomPr
             .environment(Constantes.PAYPAL_ENV)
             .clientId(Constantes.PAYPAL_CLIENT_ID)
             .languageOrLocale("pt_BR");
+
+    private static final int COD_PAGTO = 123;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -131,6 +139,73 @@ public class ListaProdutosActivity extends AppCompatActivity implements CustomPr
 
     private void executarPagtoPayPal() {
         PayPalPayment pagto = montarPagtoFinal();
+
+        Intent intent = new Intent(this, PaymentActivity.class);
+        intent.putExtra(PayPalService.EXTRA_PAYPAL_CONFIGURATION, payPalConfig);
+        intent.putExtra(PaymentActivity.EXTRA_PAYMENT, pagto);
+
+        startActivityForResult(intent, COD_PAGTO);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == COD_PAGTO) {
+            if (resultCode == Activity.RESULT_OK) {
+                PaymentConfirmation confirm = data.getParcelableExtra(PaymentActivity.EXTRA_RESULT_CONFIRMATION);
+                if (confirm != null) {
+                    try {
+                        Toast.makeText(ListaProdutosActivity.this, confirm.toJSONObject().toString(), Toast.LENGTH_SHORT).show();
+                        Toast.makeText(ListaProdutosActivity.this, confirm.getPayment().toJSONObject().toString(), Toast.LENGTH_SHORT).show();
+
+                        String idPagto = confirm.toJSONObject().getJSONObject("response").getString("id");
+
+                        String jsonClientePagto = confirm.getPayment().toJSONObject().toString();
+
+                        checkPagtoInServer(idPagto, jsonClientePagto);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                        Toast.makeText(ListaProdutosActivity.this, "Ex: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                    }
+
+                }
+            } else if (resultCode == Activity.RESULT_CANCELED) {
+                Toast.makeText(ListaProdutosActivity.this, "Usuário cancelou a operação.", Toast.LENGTH_SHORT).show();
+            } else if (resultCode == PaymentActivity.RESULT_EXTRAS_INVALID) {
+                Toast.makeText(ListaProdutosActivity.this, "O pagamento é inválido, rever parâmetros.", Toast.LENGTH_SHORT).show();
+            }
+        }
+    }
+
+    private void checkPagtoInServer(String idPagto, String jsonClientePagto) {
+        showProgressDialog();
+
+        StringRequest request = new StringRequest(Request.Method.POST, Constantes.URL_WS_CHECK_PAYMENT,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        try {
+                            JSONObject resposta = new JSONObject(response);
+                            boolean erro = resposta.getBoolean("erro");
+                            String msg = resposta.getString("msg");
+
+                            Toast.makeText(ListaProdutosActivity.this, msg, Toast.LENGTH_SHORT).show();
+
+                            if (!erro) {
+                                produtos.clear();
+                            }
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                        progressDialog.dismiss();
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Toast.makeText(ListaProdutosActivity.this, error.getMessage(), Toast.LENGTH_SHORT).show();
+                        progressDialog.dismiss();
+                    }
+                });
     }
 
     @Override
